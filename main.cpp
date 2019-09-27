@@ -4,25 +4,61 @@
 #include <cmath>
 #include <iomanip>
 #include <bitset>
+#include <dshow.h>
 
 const int hashSize = 20;
 const int goodCharsLength = 63;
+auto goodChars = const_cast<char *>("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
 
-std::vector<int> readf1();
+std::vector<int> readf1(std::string mode, std::string string);
 std::vector<int> convertToASCII(std::string s);
 int ror63(int toBits, unsigned int moves);
 
-int main() {
-    auto goodChars = const_cast<char *>("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
-    std::vector<int> passVector{};
-    std::bitset<6> sixbits(50);
+std::vector<int> hash(char *const *argv, std::vector<int> &passVector);
 
-    auto test = ror63(45,13574);
-    for(long double number : readf1()){
+int main(int argc, char *argv[]) {
+    std::vector<int> readVector{};
+    std::vector<int> passVector;
+    if(argv[3][1]=='1'){
+        std::string line;
+        std::string location {};
+        location += "../";
+        location+=argv[2];
+        location+=".txt";
+        std::ifstream myfile(location);
+        while ( std::getline(myfile, line))
+        {
+            char ** test;
+            test[0] = "-s";
+            std::StringCbCopyA(test[1],line.c_str());
+            std::vector copy = convertToASCII(line);
+            hash(test,copy);
+            for(auto single : hash(argv, copy)) {
+                if (single == 62) { std::cout << "0"; }
+                else std::cout << goodChars[single];
+            }
+            std::cout << '\n';
+        }
+    }
+    else{
+        for(auto single : hash(argv, passVector)){
+            if(single == 62){std::cout<<"0";}
+            else std::cout<<goodChars[single];
+        }
+    }
+
+
+
+
+    return 0;
+}
+
+std::vector<int> hash(char *const *argv, std::vector<int> input) {
+    std::vector<int> passVector{};
+    for(long double number : input){
         std::vector<int> tempVector{};
-        auto temp = std::pow(number, 1/691.)*pow(10,5);
+        auto temp = std::pow(number, 1 / 691.) * pow(10, 5);
         temp -= (long double)(int)temp;
-        //std::cout<<std::setprecision(40)<<temp<<'\n';
         int tempInt;
         for(int i = 0; i<hashSize; i++){
             tempInt = temp*=100;
@@ -40,24 +76,27 @@ int main() {
             }
         }
     };
-    for(auto single : passVector){
-        if(single == 62){std::cout<<"0";}
-        else std::cout<<goodChars[single];
-    }
-    return 0;
+    return passVector;
 }
 
-std::vector<int> readf1()
+std::vector<int> readf1(std::string mode, std::string string)
 {
     std::vector<int> myintArray {};
-
-    std::string line;
-    std::ifstream myfile("../f1.txt");
-    while ( std::getline(myfile, line))
-    {
-        std::vector<int> result {convertToASCII(line)};
-        myintArray.insert(std::end(myintArray), std::begin(result), std::end(result));
+    if(mode.compare("-f") == 0){
+        std::string line;
+        std::string location {};
+        location += "../";
+        location+=string;
+        location+=".txt";
+        std::ifstream myfile(location);
+        while ( std::getline(myfile, line))
+        {
+            std::vector<int> result {convertToASCII(line)};
+            myintArray.insert(std::end(myintArray), std::begin(result), std::end(result));
+        }
     }
+    else {return convertToASCII(string);}
+
     return myintArray;
 }
 std::vector<int> convertToASCII(std::string s)
