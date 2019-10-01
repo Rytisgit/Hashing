@@ -9,6 +9,7 @@
 #include <vector>
 #include <bitset>
 #include <cmath>
+#include <sstream>
 
 const int hashSize = 20;
 const int goodCharsLength = 64;
@@ -32,7 +33,7 @@ int ror63(int toBits, unsigned int moves)
     }
     return (int) newSet.to_ulong();
 }
-std::vector<int> hash(std::string input) {
+std::string hash(std::string input) {
     std::vector<int> passVector{};
     for(long double number : convertToASCII(input)){
         std::vector<int> tempVector{};
@@ -55,7 +56,10 @@ std::vector<int> hash(std::string input) {
             }
         }
     };
-    return passVector;
+    std::ostringstream pass;
+    for(auto single : passVector)
+           pass<<goodChars[single];
+    return pass.str();
 }
 
 #endif //HASHING_RYTISMASTERCLASSONHASHINGALGORITHMS_H
