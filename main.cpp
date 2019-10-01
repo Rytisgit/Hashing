@@ -7,19 +7,19 @@
 #include <dshow.h>
 
 const int hashSize = 20;
-const int goodCharsLength = 63;
-auto goodChars = const_cast<char *>("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+const int goodCharsLength = 62;
+auto goodChars = const_cast<char *>("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+/");
 
 std::vector<int> readf1(std::string mode, std::string string);
 std::vector<int> convertToASCII(std::string s);
 int ror63(int toBits, unsigned int moves);
 
-std::vector<int> hash(char *const *argv, std::vector<int> &passVector);
+std::vector<int> hash(std::string mode, std::string input);
 
 int main(int argc, char *argv[]) {
     std::vector<int> readVector{};
     std::vector<int> passVector;
-    if(argv[3][1]=='1'){
+    if(argv[3][0]=='1'){
         std::string line;
         std::string location {};
         location += "../";
@@ -28,34 +28,25 @@ int main(int argc, char *argv[]) {
         std::ifstream myfile(location);
         while ( std::getline(myfile, line))
         {
-            char ** test;
-            test[0] = "-s";
-            std::StringCbCopyA(test[1],line.c_str());
-            std::vector copy = convertToASCII(line);
-            hash(test,copy);
-            for(auto single : hash(argv, copy)) {
-                if (single == 62) { std::cout << "0"; }
-                else std::cout << goodChars[single];
-            }
+            for(auto single : hash("-s",line)){
+                if(single == goodCharsLength) {
+                    auto a = goodChars[single];
+                }
+                std::cout << goodChars[single];}
+
             std::cout << '\n';
         }
     }
     else{
-        for(auto single : hash(argv, passVector)){
-            if(single == 62){std::cout<<"0";}
-            else std::cout<<goodChars[single];
-        }
+        for(auto single : hash(argv[1], argv[2]))
+           std::cout<<goodChars[single];
     }
-
-
-
-
     return 0;
 }
 
-std::vector<int> hash(char *const *argv, std::vector<int> input) {
+std::vector<int> hash(std::string input) {
     std::vector<int> passVector{};
-    for(long double number : input){
+    for(long double number : convertToASCII(input)){
         std::vector<int> tempVector{};
         auto temp = std::pow(number, 1 / 691.) * pow(10, 5);
         temp -= (long double)(int)temp;
