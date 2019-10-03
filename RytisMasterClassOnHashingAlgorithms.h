@@ -47,9 +47,6 @@ std::string hash(const std::string &input) {
     std::vector<int> passVector{};
     std::vector<int> tempVector{};
     for (long double number : convertToASCII(input)) {
-//        if(number<0) {
-//            std::cout<<input<<'\n'<<"contains bad char";
-//            continue;}
         tempVector.clear();
         long double temp = pow(number, 1 / 691.) * pow(10, 5);
         temp -= (long double) (int) temp;
@@ -63,8 +60,6 @@ std::string hash(const std::string &input) {
         else {
             int i = 0;
             for (auto single : tempVector) {
-               // if(ror63((passVector.at(i) + single) % goodCharsLength, single) != byteShift[single%6][(passVector.at(i) + single) % goodCharsLength])
-                 //   std::cout<<ror63((passVector.at(i) + single) % goodCharsLength, single)<<"  "<<single<<(passVector.at(i) + single) % goodCharsLength<<std::endl;
                 passVector.at(i) = byteShift[single%6][(passVector.at(i) + single) % goodCharsLength];
                 i++;
             }
@@ -75,5 +70,39 @@ std::string hash(const std::string &input) {
         pass << goodChars[single];
     return pass.str();
 }
-
+std::vector<int> hashCompare(const std::string &input) {
+    std::vector<int> passVector{};
+    std::vector<int> tempVector{};
+    for (long double number : convertToASCII(input)) {
+        tempVector.clear();
+        long double temp = pow(number, 1 / 691.) * pow(10, 5);
+        temp -= (long double) (int) temp;
+        int tempInt;
+        for (int i = 0; i < hashSize; i++) {
+            tempVector.push_back(tempInt = static_cast<int>(temp *= 100));
+            temp -= (long double) tempInt;
+        }
+        if (passVector.empty())
+            for (auto single : tempVector) passVector.push_back(single % goodCharsLength);
+        else {
+            int i = 0;
+            for (auto single : tempVector) {
+                passVector.at(i) = byteShift[single%6][(passVector.at(i) + single) % goodCharsLength];
+                i++;
+            }
+        }
+    };
+    return passVector;
+}
+double HashComparer(std::string string1, std::string string2){
+    int r = 0;
+    auto hash1{hashCompare(string1)},hash2{hashCompare(string2)};
+    for(int i = 0; i < hash1.size(); i++){
+        std::bitset<6> b1(hash1.at(i));
+        std::bitset<6> b2(hash2.at(i));
+        r += (b1&b2).count();
+        r += ((~b1)&(~b2)).count();
+    }
+    return (double)r/(hash1.size()*6);
+}
 #endif //HASHING_RYTISMASTERCLASSONHASHINGALGORITHMS_H
