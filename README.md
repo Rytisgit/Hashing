@@ -2,7 +2,7 @@
 
 -t testing mode
 
-![testavimo duomenys](https://imgur.com/NGBRGFp "testavimo duomenys")
+![testavimo duomenys](https://i.imgur.com/NGBRGFp.png "testavimo duomenys")
 
 -s (String to be hashed)
 
