@@ -1,7 +1,9 @@
 # Hashing
 
 -t testing mode
+
 ![alt text](https://i.imgur.com/aoDO6Sr.png "testavimo duomenys")
+
 -s (String to be hashed)
 
 -f (file path) // whole file hashed at once
