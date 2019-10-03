@@ -21,28 +21,28 @@ std::string random_string( size_t length )
 }
 int main(int argc, char *argv[]) {
     if(argv[1][1]!='t'){
-    if(argv[1][1]=='l'){
-        std::string line;
-        std::string location {};
-        std::ifstream myfile(argv[2]);
-        double time = 0;
-        while ( std::getline(myfile, line))
-        {
-            Timer t;
-            hash(line);
-            std::cout << hash(line);
-            std::cout << '\n';
-            time+=t.elapsed();
+        if(argv[1][1]=='l'){
+            std::string line;
+            std::string location {};
+            std::ifstream myfile(argv[2]);
+            double time = 0;
+            while ( std::getline(myfile, line))
+            {
+                Timer t;
+                hash(line);
+                std::cout << hash(line);
+                std::cout << '\n';
+                time+=t.elapsed();
+            }
+            std::cout << time;
         }
-        std::cout << time;
-    }
-    else{
-        if(argv[1][1]=='s')
-           std::cout<< hash(argv[2]);
         else{
-            std::cout<<hash(readFile(argv[2]));
-        }
-    }}
+            if(argv[1][1]=='s')
+                std::cout<< hash(argv[2]);
+            else{
+                std::cout<<hash(readFile(argv[2]));
+            }
+        }}
     else{
         testSimilarity();
         std::cout<<std::endl;
@@ -75,10 +75,10 @@ void testDuplicates(){
         intervalTime += currentTime;
         auto p = hashes.insert(res);
         auto t = strings.insert(string);
-        if (!p.second)//on fail to insert hash
-            duplicate++;
-        if (!t.second)
+        if (!t.second)//only same string
             std::cout << "same string generated twice:"<<string<<std::endl;
+        if (!p.second && t.second)//different string same hash
+            duplicate++;
         if (i%printInterval==0){
             std::cout << "Hashes: " << i << ", Duplicates: " << duplicate << " Hashes/s: " << printInterval/intervalTime << std::endl;
             intervalTime = 0;
