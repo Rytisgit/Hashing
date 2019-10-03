@@ -2,7 +2,7 @@
 
 -t testing mode
 
-![alt text](https://i.imgur.com/aoDO6Sr.png "testavimo duomenys")
+![testavimo duomenys](https://imgur.com/NGBRGFp "testavimo duomenys")
 
 -s (String to be hashed)
 
