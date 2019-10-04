@@ -6,7 +6,7 @@ To use high precision fractional digits gotten from each symbol by high power ro
 
 ## Implementation
 
-The string is read in and converted to ASCII number codes, with non-ASCII chwracters igonred.
+The string is read in and converted to ASCII number codes, with non-ASCII characters ignored.
 
 A number is raised to the power of 1/619.
 
