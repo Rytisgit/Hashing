@@ -40,9 +40,11 @@ lPWWtidGyAO0L/R1ogJouaDN
 #### 1 length string hash comparison
 
 `hashing.exe -f ../f1.txt (contents "a")`
+
 xu1nSIDIOL4BEwA4ypayPO+Y
 
 `hashing.exe -f ../f2.txt (contents "b")`
+
 jAvC1aHb/0OZ4+ofciRY78LY
 
 #### 2 10000 length strings hash comparison
