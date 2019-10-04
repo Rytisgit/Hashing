@@ -16,13 +16,15 @@ When the string ends the numbers are converted to a string representation by ref
 
 ## Commandline Options
 
-`g++ -O3 main.cpp -o hash`
+#### Sukompiliuoti
+
+`g++ -O3 main.cpp -o hashing`
 
 ### -t testing mode
 
 Testing converts to bitsets of size 6 and compares matching 0 and 1 in same positions and divides by total bit length.
 
-Other test generates random strings of size 6 and adds them to a set, so instead of 2 different strings compared to each other all previous strings get compared to the current one to see if same hash was generated. ()
+Other test generates random strings of size 6 and adds them to a set, so instead of 2 different strings compared to each other all previous strings get compared to the current one to see if same hash was generated. (BlackDude22 idea)
 
 ![testavimo duomenys](https://i.imgur.com/NGBRGFp.png "testavimo duomenys")
 
@@ -77,4 +79,6 @@ qw3Me7PbR1zJqWiY6CTB+llT
 
 ### -l (file path) // file hashed line by line (lowercase L)
 
-Konstitucija.txt uztrunka 0.280061 s
+`hashing.exe -l ../Konstitucija.txt`
+
+Konstitucija.txt uztrunka 0.201552 s
