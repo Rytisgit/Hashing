@@ -70,7 +70,7 @@ std::string hash(const std::string &input) {
         pass << goodChars[single];
     return pass.str();
 }
-std::vector<int> hashCompare(const std::string &input) {
+std::vector<int> hashForCompare(const std::string &input) {
     std::vector<int> passVector{};
     std::vector<int> tempVector{};
     for (long double number : convertToASCII(input)) {
@@ -96,7 +96,7 @@ std::vector<int> hashCompare(const std::string &input) {
 }
 double HashComparer(std::string string1, std::string string2){
     int r = 0;
-    auto hash1{hashCompare(string1)},hash2{hashCompare(string2)};
+    auto hash1{hashForCompare(string1)},hash2{hashForCompare(string2)};
     for(int i = 0; i < hash1.size(); i++){
         std::bitset<6> b1(hash1.at(i));
         std::bitset<6> b2(hash2.at(i));

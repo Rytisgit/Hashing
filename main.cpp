@@ -9,16 +9,7 @@
 std::string readFile(std::string string);
 void testDuplicates();
 void testSimilarity();
-std::string random_string( size_t length )
-{
-    thread_local static std::mt19937 rg{
-            static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count())};
-    thread_local static std::uniform_int_distribution<int> pick(0, goodCharsLength);
-    auto randchar = []() -> char {return goodChars[ pick(rg) % goodCharsLength ];};
-    std::string str(length,0);
-    std::generate_n( str.begin(), length, randchar );
-    return str;
-}
+std::string random_string( size_t length );
 int main(int argc, char *argv[]) {
     if(argv[1][1]!='t'){
         if(argv[1][1]=='l'){
@@ -50,7 +41,16 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
-
+std::string random_string( size_t length )
+{
+    thread_local static std::mt19937 rg{
+            static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count())};
+    thread_local static std::uniform_int_distribution<int> pick(0, goodCharsLength-1);
+    auto randchar = []() -> char {return goodChars[pick(rg)];};
+    std::string str(length,0);
+    std::generate_n( str.begin(), length, randchar );
+    return str;
+}
 std::string readFile(std::string string)
 {
     std::ostringstream sstream;
@@ -60,12 +60,9 @@ std::string readFile(std::string string)
     return sstream.str();
 }
 void testDuplicates(){
-    std::set<std::string> hashes;
-    std::set<std::string> strings;
-    double totalTime = 0;
-    double intervalTime = 0;
-    int printInterval = 1e5;
-    int duplicate = 0;
+    std::set<std::string> hashes,strings;
+    double totalTime = 0,intervalTime = 0;
+    int printInterval = 1e5,duplicate = 0;
     for (int i = 1; i <= 1e6; i++){
         auto string = random_string(6);
         Timer start;
